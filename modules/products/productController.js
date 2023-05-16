@@ -22,10 +22,11 @@ addProduct = async(req,res,next)=>{
 
 viewProduct = async(req,res,next)=>{
   try {
+      if (req.body.category_id){
       let isValid = await viewProductReq.validateAsync(req.body);
       if(isValid instanceof Error){
         return next(isValid)
-      }
+      }}
       let body = req.body;
       let result  = await productService.viewProduct(body);
       helper.send(res, result.message, result.data);

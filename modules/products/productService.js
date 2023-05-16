@@ -25,6 +25,7 @@ addProduct =  async(req,payload,body)=>{
 
   viewProduct =async(body)=>{
     let result = {data:null,message:null};
+    if(body.category_id){
     const category_id = body.category_id;
     const product = await productSchema.findAll({
       where:{
@@ -45,6 +46,20 @@ addProduct =  async(req,payload,body)=>{
     }else{
       result.data=[];
       result.message="Category Doesnot exist"
+    }}
+    else{
+      const allProducts = await productSchema.findAll({
+        attributes:['name','price'],
+      include:[{
+        model:productCategorySchema,
+        attributes:[['name','category']]
+      },{
+        model:productInventorySchema,
+        attributes:[['quantity','stock available']]
+      }]
+      });
+      result.data=allProducts;
+      result.message="All Products"
     }
     return result
   }

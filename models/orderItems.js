@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
-const orderDetailsSchema = require("./orderDetails");
-const productSchema =require("./product");
+const {orderDetailsSchema} = require("./orderDetails");
+const {productSchema} =require("./product");
 
 const orderItemsSchema = db.sequelize.define(
   "order_items",
@@ -25,7 +25,6 @@ const orderItemsSchema = db.sequelize.define(
       modified_at : {
         type: Sequelize.DATE,
         allowNull: true,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
       }
     
   },

@@ -15,7 +15,7 @@ const userSchema = db.sequelize.define(
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
     telephone: Sequelize.STRING,
-
+    email: Sequelize.STRING,
     created_at : {
         type: Sequelize.DATE,
         allowNull: true,
