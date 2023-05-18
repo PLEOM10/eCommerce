@@ -1,77 +1,107 @@
-const {orderDetailsSchema} = require("../../models/orderDetails");
-const {orderItemsSchema}=require("../../models/orderItems")
-const {productSchema}=require("../../models/product")
-const {userSchema}=require("../../models/user")
+const { orderDetailsSchema } = require("../../models/orderDetails");
+const { orderItemsSchema } = require("../../models/orderItems")
+const { productSchema } = require("../../models/product")
+const { userSchema } = require("../../models/user")
 
-getOrder =  async(body)=>{
-    let result = { data:null };
-    const {id} = body;
-  
-    let order =await orderDetailsSchema.findAll({
-        where:{
-            id:id
-        },
-        attributes:['total'],
-        include:[{
-            model:orderItemsSchema,
-            attributes:['quantity'],
-            include:[{
-                model:productSchema,
-                attributes:['name','price']
+getOrder = async(body) => {
+    let result = { data: null };
+
+    if (body.id) {
+        let order = await orderDetailsSchema.findAll({
+            where: {
+                id: id
+            },
+            attributes: ['id', 'total', 'status'],
+            include: [{
+                model: orderItemsSchema,
+                attributes: ['quantity'],
+                include: [{
+                    model: productSchema,
+                    attributes: ['name', 'price']
+                }]
             }]
-        }]
-    })
+        })
+        result.code = 201
+        result.data = order
+    } else {
+        let order = await orderDetailsSchema.findAll({
 
-    if(order){
-        result.code=201
-        result.data=order
-    }else{
-        result.code=204
-        result.data=[]
+            attributes: ['id', 'total', 'status'],
+            include: [{
+                    model: orderItemsSchema,
+                    attributes: ['quantity'],
+                    include: [{
+                        model: productSchema,
+                        attributes: ['name', 'price']
+                    }]
+                },
+                {
+                    model: userSchema,
+                    attributes: ['email']
+                }
+            ]
+        })
+        result.code = 201
+        result.data = order
     }
     return result
-  }
+}
 
-  orderProduct =  async(payload,body)=>{
-    let result = { data:null };
-    const {product_id,quantity} = body;
-    
-    
-    let user= await userSchema.findOne({
-        where:{
-            id:payload.id
-        },
-    }) 
+orderProduct = async(payload, body) => {
+    let result = { data: null };
+    const { product_id, quantity } = body;
 
-    let product= await productSchema.findOne({
-        where:{
-            id:product_id
+
+    let user = await userSchema.findOne({
+        where: {
+            id: payload.id
         },
-        attributes:['name','price']
     })
 
-    let total=quantity * product.price;
-
-    let order =await orderDetailsSchema.create({
-        user_id:payload.id,
-        total:total
-    }) 
-
-    let order_id=order.id;
-
-    let order_items=await orderItemsSchema.create({
-        order_id:order_id,
-        product_id:product_id,
-        quantity:quantity
+    let product = await productSchema.findOne({
+        where: {
+            id: product_id
+        },
+        attributes: ['name', 'price']
     })
- 
-    result.data=order_items
-    result.product=product.name
-    result.email=user.email
+
+    let total = quantity * product.price;
+
+    let order = await orderDetailsSchema.create({
+        user_id: payload.id,
+        total: total
+    })
+
+    let order_id = order.id;
+
+    let order_items = await orderItemsSchema.create({
+        order_id: order_id,
+        product_id: product_id,
+        quantity: quantity
+    })
+
+    result.data = order_items
+    result.product = product.name
+    result.email = user.email
     return result
-  }
-  
+}
+
+changeStatus = async() => {
+    let result = { data: null }
+    let order = await orderDetailsSchema.findOne({
+        where: {
+            id: body.id
+        },
+    })
+    order.status = "ACCEPTED";
+    await order.save();
+    result.code = 200;
+    result.data = order;
+    return result;
+}
+
 module.exports = {
     getOrder,
-    orderProduct
+    orderProduct,
+    changeStatus
 }

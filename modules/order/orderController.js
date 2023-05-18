@@ -41,9 +41,21 @@ orderProduct = async(req, res, next) => {
         next(error)
     }
 }
-
+changeStatus = async(req, res, next) => {
+    try {
+        body = req.body;
+        let result = await orderService.changeStatus(body);
+        let re = { result }
+        helper.send(res, "Status Updated", re);
+    } catch (error) {
+        if (error.isJoi)
+            return next(createHttpError(400, { message: error.message }));
+        next(error)
+    }
+}
 
 module.exports = {
     getOrder,
+    changeStatus,
     orderProduct
 }

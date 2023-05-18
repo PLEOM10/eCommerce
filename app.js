@@ -8,6 +8,7 @@ const cors = require("cors");
 var app = express();
 const cron = require('node-cron')
 const { viewOrder } = require("./utils/job.js")
+const validate = require("./middleware/index.js");
 
 app.use(cors());
 app.use(express.json());
@@ -16,10 +17,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 //Routes
 app.use("/", routes(router));
 
+app.get('/products', (req, res) => {
+    res.render('index', {});
+});
+
+app.get('/admin', (req, res) => {
+    res.render('admin', {});
+});
 //error
 app.use((error, req, res, next) => {
     if (!error) {

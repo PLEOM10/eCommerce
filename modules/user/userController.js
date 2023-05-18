@@ -27,7 +27,7 @@ logIn = async(req, res, next) => {
         }
         let body = req.body;
         let result = await userService.logIn(body);
-        let re = { name: result.data.first_name + " " + result.data.last_name, token: result.data.token }
+        let re = { name: result.data.first_name + " " + result.data.last_name, token: result.data.token, user_type: result.data.user_type }
         helper.send(res, "Login Successful", re);
     } catch (error) {
         if (error.isJoi)

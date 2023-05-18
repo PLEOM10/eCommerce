@@ -42,6 +42,7 @@ logIn = async(body) => {
             first_name: user.first_name,
             last_name: user.last_name,
             token: token,
+            user_type: user.user_type
         });
         result.data = resObj;
     }
