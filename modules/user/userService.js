@@ -38,11 +38,12 @@ logIn = async(body) => {
         let options = { expiresIn: "72h" };
         let token = jwt.sign(payload, JWT_SECRET, options);
         let resObj = Object.assign({}, user, {
-            id: user.employee_id,
+            id: id,
             first_name: user.first_name,
             last_name: user.last_name,
             token: token,
             user_type: user.user_type
+
         });
         result.data = resObj;
     }

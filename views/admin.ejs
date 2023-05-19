@@ -4,6 +4,31 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        
+        li {
+            float: left;
+            font-size: large;
+        }
+        
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #111;
+        }
+        
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
@@ -22,11 +47,12 @@
         }
         
         #demo {
-            background-image: url(bg_img_product.jpg);
+            background-image: url(bg_img.jpg);
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
+            min-height: 570px;
         }
         
         button {
@@ -35,26 +61,24 @@
             color: white;
             padding-top: 5px;
             padding: 5px;
-        }
-        
-        button:hover {
-            background-color: green
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
         
         button[disabled] {
-            background-color: gray;
-            content: "ACCEPTED";
+            background-color: grey;
+        }
+        
+        button:hover[enabled] {
+            background-color: green;
         }
         
         #navbar {
             text-align: center;
             color: aliceblue;
             font-size: x-large;
-            margin: 0;
             position: fixed;
             width: 100%;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            padding: 10px;
             background-color: #333;
         }
     </style>
@@ -62,7 +86,14 @@
 
 
 <body style="margin: 0;">
-    <div id="navbar"> Orders </div>
+    <div id="navbar">
+        <ul>
+            <li>
+                <a class="active" href="http://localhost:3000/orderCount">Count</a>
+            </li>
+            <div style="padding-top: 15px;padding: 10px;">Orders</div>
+        </ul>
+    </div>
     <br><br><br>
     <div>
         <div id="demo"></div>
@@ -70,17 +101,15 @@
 </body>
 <script>
     async function main() {
-
         var token = sessionStorage.getItem('token')
         let result = await fetch("/getOrder", {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + token
             },
         });
         let resData = await result.json();
-        console.log(resData)
         if (resData.status == 200) {
             let text = "";
             for (let i = 1; i < resData.data.result.data.length; i++) {
@@ -91,21 +120,18 @@
                     displayStatus = "ACCEPTED"
                 }
                 text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
-                    resData.data.result.data[i].total + "</b></h4>" + "<p> From: " + resData.data.result.data[i].user.email + "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" + "<p> Quantity : " + resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p>' + resData.data.result.data[i].status + '</p>' + '</div>' + `<button id="btn${i}" onclick="acceptOrder('${resData.data.result.data[i].id}')" ${buttonStatus}>` + `${displayStatus}` + "</button>" + '</div>' + '</span>'
+                    resData.data.result.data[i].total + "</b></h4>" + "<p> From: " + resData.data.result.data[i].user.email + "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" + "<p> Quantity : " + resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p>' + resData.data.result.data[i].status + '</p>' + '</div>' + `<button id="btn${i}" onclick="acceptOrder('${resData.data.result.data[i].id}','${resData.data.result.data[i].user.email}','${resData.data.result.data[i].order_items[0].product.name}','${resData.data.result.data[i].order_items[0].quantity}')" ${buttonStatus}>` + `${displayStatus}` + "</button>" + '</div>' + '</span>'
             }
             document.getElementById("demo").innerHTML = text;
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
-
-
-
     }
 
-    async function acceptOrder(id) {
-
+    async function acceptOrder(id, email, name, quantity) {
         var token = sessionStorage.getItem('token')
+
         let result = await fetch("/changeStatus", {
             method: 'PUT',
             headers: {
@@ -113,7 +139,10 @@
                 "Authorization": "Bearer " + token
             },
             body: JSON.stringify({
-                id: id
+                id: id,
+                email: email,
+                name: name,
+                quantity: quantity,
             })
         });
 

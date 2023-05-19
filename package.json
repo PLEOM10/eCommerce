@@ -24,7 +24,7 @@
         "nodemailer": "^6.9.2",
         "nodemon": "^2.0.22",
         "pug": "^3.0.2",
-        "razorpay": "^0.0.0",
+        "razorpay": "^2.8.6",
         "sequelize": "^6.25.3",
         "socket.io": "^4.6.1"
     }

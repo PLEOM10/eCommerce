@@ -9,24 +9,29 @@ getOrder = async(body) => {
     if (body.id) {
         let order = await orderDetailsSchema.findAll({
             where: {
-                id: id
+                user_id: body.id
             },
-            attributes: ['id', 'total', 'status'],
+            attributes: ['id', 'total', 'status', 'payment_status'],
             include: [{
-                model: orderItemsSchema,
-                attributes: ['quantity'],
-                include: [{
-                    model: productSchema,
-                    attributes: ['name', 'price']
-                }]
-            }]
+                    model: orderItemsSchema,
+                    attributes: ['quantity'],
+                    include: [{
+                        model: productSchema,
+                        attributes: ['name', 'price']
+                    }]
+                },
+                {
+                    model: userSchema,
+                    attributes: ['email']
+                }
+            ]
         })
         result.code = 201
         result.data = order
     } else {
         let order = await orderDetailsSchema.findAll({
 
-            attributes: ['id', 'total', 'status'],
+            attributes: ['id', 'total', 'status', 'payment_status'],
             include: [{
                     model: orderItemsSchema,
                     attributes: ['quantity'],
@@ -86,7 +91,7 @@ orderProduct = async(payload, body) => {
     return result
 }
 
-changeStatus = async() => {
+changeStatus = async(body) => {
     let result = { data: null }
     let order = await orderDetailsSchema.findOne({
         where: {
@@ -97,11 +102,52 @@ changeStatus = async() => {
     await order.save();
     result.code = 200;
     result.data = order;
+    result.email = body.email;
+    result.name = body.name;
+    result.quantity = body.quantity;
     return result;
+}
+
+changePaymentStatus = async(body) => {
+    let result = { data: null }
+    let order = await orderDetailsSchema.findOne({
+        where: {
+            id: body.id
+        },
+    })
+    order.payment_status = "PAID";
+    await order.save();
+    result.code = 200;
+    result.data = order;
+    return result;
+}
+getCount = async() => {
+    let result = {}
+    let statusPlaced = await orderDetailsSchema.count({
+        where: {
+            status: "PLACED"
+        }
+    })
+    let statusAccepted = await orderDetailsSchema.count({
+        where: {
+            status: "ACCEPTED"
+        }
+    })
+    let statusCancelled = await orderDetailsSchema.count({
+        where: {
+            status: "CANCELLED"
+        }
+    })
+    result.placed = statusPlaced
+    result.accepted = statusAccepted
+    result.cancelled = statusCancelled
+    return result
 }
 
 module.exports = {
     getOrder,
     orderProduct,
-    changeStatus
+    changeStatus,
+    getCount,
+    changePaymentStatus
 }

@@ -47,6 +47,31 @@ changeStatus = async(req, res, next) => {
         let result = await orderService.changeStatus(body);
         let re = { result }
         helper.send(res, "Status Updated", re);
+        mail.acceptMail(result.email, result.name, result.quantity);
+    } catch (error) {
+        if (error.isJoi)
+            return next(createHttpError(400, { message: error.message }));
+        next(error)
+    }
+}
+changePaymentStatus = async(req, res, next) => {
+    try {
+        body = req.body;
+        let result = await orderService.changePaymentStatus(body);
+        let re = { result }
+        helper.send(res, "Status Updated", re);
+    } catch (error) {
+        if (error.isJoi)
+            return next(createHttpError(400, { message: error.message }));
+        next(error)
+    }
+}
+
+getCount = async(req, res, next) => {
+    try {
+        let result = await orderService.getCount();
+        let re = { result }
+        helper.send(res, "Counts Received", re)
     } catch (error) {
         if (error.isJoi)
             return next(createHttpError(400, { message: error.message }));
@@ -57,5 +82,7 @@ changeStatus = async(req, res, next) => {
 module.exports = {
     getOrder,
     changeStatus,
-    orderProduct
+    orderProduct,
+    getCount,
+    changePaymentStatus
 }

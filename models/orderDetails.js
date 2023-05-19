@@ -24,7 +24,9 @@ const orderDetailsSchema = db.sequelize.define(
             type: Sequelize.DATE,
             allowNull: true,
         },
-        status: Sequelize.ENUM(["PLACED", "ACCEPTED", "DELIVERED"])
+
+        status: Sequelize.ENUM(["PLACED", "ACCEPTED", "CANCELLED"]),
+        payment_status: Sequelize.ENUM(["UNPAID", "PAID"]),
 
     }, {
         timestamps: false,
