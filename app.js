@@ -40,10 +40,14 @@ app.get('/admin', (req, res) => {
 app.get('/orderCount', (req, res) => {
     res.render('count', {});
 });
+
+app.get('/myCart', (req, res) => {
+    res.render('cart', {});
+});
 //payment
 app.post("/payment", async(req, res) => {
         let { amount } = req.body;
-        var instance = new Razorpay({ key_id: 'rzp_test_VbmrXkTyG8HP49', key_secret: 'rhAMgznGDkidmpawHqrbTsen' })
+        var instance = new Razorpay({ key_id: 'rzp_test_0GpnKLHZLZKsPm', key_secret: 'hPNf09RqkFTExU7YdYcc5F9G' })
         let order = await instance.orders.create({
             amount: amount * 100,
             currency: "INR",

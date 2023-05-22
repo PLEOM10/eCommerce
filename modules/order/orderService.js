@@ -116,6 +116,7 @@ changePaymentStatus = async(body) => {
         },
     })
     order.payment_status = "PAID";
+    order.status = "PLACED";
     await order.save();
     result.code = 200;
     result.data = order;

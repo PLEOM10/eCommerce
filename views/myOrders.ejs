@@ -95,7 +95,7 @@
         <div id="demo"></div>
     </div>
 </body>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script>
     async function main() {
         var id = sessionStorage.getItem('id')
@@ -115,65 +115,22 @@
         if (resData.status == 200) {
             let text = "";
             for (let i = 0; i < resData.data.result.data.length; i++) {
-                var buttonStatus = "enabled"
-                var buttonDisplay = "PAY"
-                if (resData.data.result.data[i].payment_status == 'PAID') {
-                    buttonStatus = "disabled"
-                    buttonDisplay = "PAID"
+
+
+                if (resData.data.result.data[i].payment_status != 'PAID') {
+
+                    resData.data.result.data[i].status = 'PENDING'
                 }
                 text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
                     resData.data.result.data[i].total + "</b></h4>" + "<p> From: " + resData.data.result.data[i].user.email +
                     "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" + "<p> Quantity : " +
-                    resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p> Status : ' + resData.data.result.data[i].status + '</p>' + '<p>Payment Status : ' + resData.data.result.data[i].payment_status + '</p>' + '</div>' + `<button id="btn${i}" onclick="payment('${resData.data.result.data[i].total}','${resData.data.result.data[i].id}')"  ${buttonStatus}>` + buttonDisplay + "</button>" + '</div>' + '</span>'
+                    resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p> Status : ' + resData.data.result.data[i].status + '</p>' + '<p>Payment Status : ' + resData.data.result.data[i].payment_status + '</p>' + '</div>' + '</div>' + '</span>'
             }
             document.getElementById("demo").innerHTML = text;
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
-    }
-
-    async function payment(amount, id) {
-        sessionStorage.setItem('orderId', id)
-        let pay = await fetch("/payment", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                amount: amount,
-            })
-        });
-        let paymentData = await pay.json();
-
-        var options = {
-            "key": "rzp_test_VbmrXkTyG8HP49", // Enter the Key ID generated from the Dashboard
-            "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "order_id": paymentData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": async function(response) {
-                if (response.razorpay_payment_id) {
-                    let id = sessionStorage.getItem('orderId')
-                    let result = await fetch("/changePaymentStatus", {
-                        method: 'PUT',
-                        headers: {
-                            "Content-type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            id: id
-                        })
-                    });
-                    let resData = await result.json();
-                    alert(resData.message);
-                    main();
-                } else {
-                    alert("ERROR");
-                }
-            },
-
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
     }
 
     main();

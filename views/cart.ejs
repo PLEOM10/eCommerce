@@ -52,6 +52,7 @@
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
+            min-height: 500px;
         }
         
         button {
@@ -71,6 +72,15 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: #333;
         }
+        
+        #pay {
+            text-align: center;
+            background-color: aliceblue;
+            position: fixed;
+            width: 100%;
+            bottom: 0px;
+            padding: 10px;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -78,11 +88,11 @@
 <body style="margin: 0;">
     <div id="navbar">
         <ul>
-            <li><a class="active" href="http://localhost:3000/myOrders">My Orders</a></li>
+
             <li>
-                <a class="active" href="http://localhost:3000/myCart">Cart <i class="fa fa-shopping-cart" style="font-size:24px"></i></a>
+                <a class="active" href="http://localhost:3000/products">Products</a>
             </li>
-            <div style="padding-top: 15px;padding: 10px;">Products</div>
+            <div style="padding-top: 15px;padding: 10px;">Cart</div>
         </ul>
 
     </div>
@@ -90,7 +100,11 @@
     <div>
         <div id="demo"></div>
     </div>
+    <br><br><br><br>
+    <div id="pay" style="background-color:black;"><button style="width: 33%; padding:10px;background-color: aliceblue;color: black;font-size: x-large;" onclick="payment()"><b id="total"> Add products to Cart </b></button></div>
 </body>
+<script src="https://checkout.razorpay.com/v1/checkout.js">
+</script>
 <script>
     async function main() {
         var token = sessionStorage.getItem('token')
@@ -103,41 +117,65 @@
 
         });
         let resData = await result.json();
+        total(resData.data)
         console.log(resData.data);
-
         if (resData.status == 200) {
             let text = "";
             for (let i = 0; i < resData.data.length; i++) {
-
-                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>" +
-                    resData.data[i].name + "</b></h4>" + "<p> Price : Rs." + resData.data[i].price + "</p>" + "<p> Category : " + resData.data[i].product_category.category +
-                    "</p>" + "<p> Stock : " + resData.data[i].product_inventory.stock + "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" min="1" max="5"></p>` + '</div>' +
-                    `<button type="submit" id="btn${i}" onclick="addToCart('${resData.data[i].id}','${resData.data[i].name}','${resData.data[i].price}','${resData.data[i].product_category.category}','${i}')">` + 'Add Product to Cart' + "</button>" +
-                    '</div>' + '</span>'
+                let j = i + 1
+                if (sessionStorage.getItem(`id_${j}`) != null) {
+                    text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>" +
+                        resData.data[i].name + "</b></h4>" + "<p> Price : Rs." + resData.data[i].price + "</p>" + "<p> Category : " + resData.data[i].product_category.category +
+                        "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" onchange="totalOnChange(${resData.data.length})" value="${sessionStorage.getItem(`quantity_${j}`)}" min="1" max="5"></p>` + '</div>' +
+                        `<button type="submit" id="btn${i}" onclick="remove('${j}')">` + 'Remove Product from Cart' + "</button>" +
+                        '</div>' + '</span>'
+                    }
             }
             document.getElementById("demo").innerHTML = text;
+            
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
     }
 
-    async function addToCart(id, name, price, category, ui) {
-        var quantity = document.getElementById(`quantity${ui}`).value
-        if (quantity > 5 || quantity < 1) {
-            alert("Quantity should be less than 5 and more than 0")
-            main()
-        } else {
-            sessionStorage.setItem(`id_${id}`, id)
-            sessionStorage.setItem(`name_${id}`, name)
-            sessionStorage.setItem(`price_${id}`, price)
-            sessionStorage.setItem(`category_${id}`, category)
-            sessionStorage.setItem(`quantity_${id}`, quantity)
-
-        }
+    async function remove(id){
+        sessionStorage.removeItem(`id_${id}`)
+        sessionStorage.removeItem(`name_${id}`)
+        sessionStorage.removeItem(`price_${id}`)
+        sessionStorage.removeItem(`category_${id}`)
+        sessionStorage.removeItem(`quantity_${id}`)
+        location.reload()
+        main()
     }
 
-    main();
+
+    async function total(data){
+        let total_amount= 0
+        for (let i = 0; i < data.length; i++){
+            let j=i+1
+            if (sessionStorage.getItem(`id_${j}`) != null){
+            quant = sessionStorage.getItem(`quantity_${j}`)
+            let price = sessionStorage.getItem(`price_${j}`)
+            total_amount =total_amount  + quant * price
+            document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
+        }    
+    }
+    }
+
+    async function totalOnChange(length){
+        let total_amount= 0
+        for (let i = 0; i < length; i++){
+            let j=i+1
+            if (sessionStorage.getItem(`id_${j}`) != null){
+            quant = document.getElementById(`quantity${i}`).value   
+            let price = sessionStorage.getItem(`price_${j}`)
+            total_amount =total_amount  + quant * price
+            document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
+        }    
+    }
+    }
+    main()
 </script>
 
 </html>
