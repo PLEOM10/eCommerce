@@ -88,13 +88,11 @@
 <body style="margin: 0;">
     <div id="navbar">
         <ul>
-
             <li>
                 <a class="active" href="http://localhost:3000/products">Products</a>
             </li>
             <div style="padding-top: 15px;padding: 10px;">Cart<i class="fa fa-shopping-cart" style="font-size:24px"></i></div>
         </ul>
-
     </div>
     <br><br><br>
     <div>
@@ -143,11 +141,14 @@
     }
 
     async function remove(id){
+        let total_amount = sessionStorage.getItem('total_amount')
+        sessionStorage.setItem('total_amount',total_amount-sessionStorage.getItem(`price_${id}`)*sessionStorage.getItem(`quantity_${id}`))
         sessionStorage.removeItem(`id_${id}`)
         sessionStorage.removeItem(`name_${id}`)
         sessionStorage.removeItem(`price_${id}`)
         sessionStorage.removeItem(`category_${id}`)
         sessionStorage.removeItem(`quantity_${id}`)
+        
         location.reload()
         main()
     }
@@ -172,15 +173,17 @@
         for (let i = 0; i < length; i++){
             let j=i+1
             if (sessionStorage.getItem(`id_${j}`) != null){
-            quant = document.getElementById(`quantity${i}`).value   
+            quant = document.getElementById(`quantity${i}`).value  
+            sessionStorage.setItem(`quantity_${j}`,quant) 
             let price = sessionStorage.getItem(`price_${j}`)
             total_amount =total_amount  + quant * price
             sessionStorage.setItem('total_amount',total_amount)
             document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
         }    
-    }
+        }
     }
     async function payment() {
+        if(sessionStorage.getItem('total_amount')!=0){
         var token = sessionStorage.getItem('token')
         var amount = sessionStorage.getItem('total_amount')
         let pay = await fetch("/payment", {
@@ -234,6 +237,8 @@
                         sessionStorage.removeItem(`quantity_${j}`)
                     }  
             }
+            let total_amount=0
+            sessionStorage.setItem(`total_amount`,total_amount)
             location.reload()
                         main()       
                 }else{
@@ -243,6 +248,9 @@
         };
         var rzp1 = new Razorpay(options);
         rzp1.open();
+        }else{
+            alert("no products")
+        }
     }
     main()
 </script>

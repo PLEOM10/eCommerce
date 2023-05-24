@@ -4,6 +4,94 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        /* Full-width input fields */
+        /* Add a background color when the inputs get focus */
+        /* Set a style for all buttons */
+        /* Extra styles for the cancel button */
+        
+        .cancelbtn {
+            padding: 14px 20px;
+            background-color: #f44336;
+        }
+        /* Float cancel and signup buttons and add an equal width */
+        
+        .cancelbtn,
+        .signupbtn {
+            float: left;
+            width: 50%;
+        }
+        /* Add padding to container elements */
+        
+        .container1 {
+            padding: 16px;
+        }
+        /* The Modal (background) */
+        
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: #474e5d;
+            padding-top: 50px;
+        }
+        /* Modal Content/Box */
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto;
+            /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+        /* Style the horizontal ruler */
+        
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+        /* The Close Button (x) */
+        
+        .close {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #f1f1f1;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #f44336;
+            cursor: pointer;
+        }
+        /* Clear floats */
+        
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        
         ul {
             list-style-type: none;
             margin: 0;
@@ -92,24 +180,57 @@
                     <h4><b>PLACED</b></h4>
                     <p id="placed "></p>
                 </div>
+                <button onclick="placed()">View</button>
             </div>
             <div class="card ">
                 <div class="container ">
                     <h4 style="color:green "><b>ACCEPTED</b></h4>
                     <p id="accepted "></p>
                 </div>
+                <button onclick="accepted()">View</button>
             </div>
             <div class="card ">
                 <div class="container ">
                     <h4 style="color:red "><b>CANCELLED</b></h4>
                     <p id="cancelled "></p>
                 </div>
+                <button onclick="cancelled()">View</button>
             </div>
-
         </div>
+        <div id="id01" class="modal" style="background-color: RGB(251 233 13);">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <div class="modal-content">
+                <div class="container1" id="all_placed"></div>
+            </div>
+        </div>
+        <div id="id02" class="modal" style="background-color: RGB(251 233 13);">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <div class="modal-content">
+                <div class="container1" id="all_accepted"></div>
+            </div>
+        </div>
+        <div id="id03" class="modal" style="background-color: RGB(251 233 13);">
+            <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <div class="modal-content">
+                <div class="container1" id="all_cancelled"></div>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 <script>
+    var modal = document.getElementById('id01 ');
+    var modal1 = document.getElementById('id02');
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        if (event.target == modal1) {
+            modal1.style.display = "none"
+        }
+    }
+
+
     async function main() {
         var token = sessionStorage.getItem('token')
         console.log(token)
@@ -131,6 +252,91 @@
             document.getElementById("demo").innerHTML = text;
         }
     }
+    async function placed() {
+        document.getElementById('id01').style.display = 'block'
+        var token = sessionStorage.getItem('token')
+        let result = await fetch("/getCount", {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+        });
+        let resData = await result.json();
+        console.log(resData.data.result.allPlaced[1])
+        if (resData.status == 200) {
+            let text = "";
+            for (let i = 1; i < resData.data.result.allPlaced.length; i++) {
+                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
+                    resData.data.result.allPlaced[i].total + "</b></h4>" + '<p> Name : ' + resData.data.result.allPlaced[i].order_items[0].product.name + '</p>' +
+                    '<p> Email : ' + resData.data.result.allPlaced[i].user.email + '</p>' +
+                    '<p>Payment Status : ' + resData.data.result.allPlaced[i].payment_status + '</p>' +
+                    '</div>' + '</div>' + '</span>'
+            }
+            document.getElementById("all_placed").innerHTML = text;
+        } else {
+            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            document.getElementById("demo").innerHTML = text;
+        }
+    }
+
+    async function accepted() {
+        document.getElementById('id02').style.display = 'block'
+        var token = sessionStorage.getItem('token')
+        let result = await fetch("/getCount", {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+        });
+        let resData = await result.json();
+        console.log(resData.data.result.allAccepted[1])
+        if (resData.status == 200) {
+            let text = "";
+            for (let i = 1; i < resData.data.result.allAccepted.length; i++) {
+                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
+                    resData.data.result.allAccepted[i].total + "</b></h4>" + '<p> Name : ' + resData.data.result.allAccepted[i].order_items[0].product.name + '</p>' +
+                    '<p> Email : ' + resData.data.result.allAccepted[i].user.email + '</p>' +
+                    '<p>Payment Status : ' + resData.data.result.allAccepted[i].payment_status + '</p>' +
+                    '</div>' + '</div>' + '</span>'
+            }
+            document.getElementById("all_accepted").innerHTML = text;
+        } else {
+            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            document.getElementById("demo").innerHTML = text;
+        }
+    }
+
+    async function cancelled() {
+        document.getElementById('id01').style.display = 'block'
+        var token = sessionStorage.getItem('token')
+        console.log(token)
+        let result = await fetch("/getCount", {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+        });
+        let resData = await result.json();
+        console.log(resData.data.result.allPlaced[1])
+        if (resData.status == 200) {
+            let text = "";
+            for (let i = 1; i < resData.data.result.allCancelled.length; i++) {
+                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
+                    resData.data.result.allCancelled[i].total + "</b></h4>" + '<p> Name : ' + resData.data.result.allCancelled[i].order_items[0].product.name + '</p>' +
+                    '<p> Email : ' + resData.data.result.allCancelled[i].user.email + '</p>' +
+                    '<p>Payment Status : ' + resData.data.result.allCancelled[i].payment_status + '</p>' +
+                    '</div>' + '</div>' + '</span>'
+            }
+            document.getElementById("all_placed").innerHTML = text;
+        } else {
+            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            document.getElementById("demo").innerHTML = text;
+        }
+    }
+
 
     main();
 </script>

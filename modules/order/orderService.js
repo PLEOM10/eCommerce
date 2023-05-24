@@ -129,19 +129,84 @@ getCount = async() => {
             status: "PLACED"
         }
     })
+
+    let placed = await orderDetailsSchema.findAll({
+        where: {
+            status: "PLACED"
+        },
+        attributes: ['id', 'total', 'status', 'payment_status'],
+        include: [{
+                model: orderItemsSchema,
+                attributes: ['quantity'],
+                include: [{
+                    model: productSchema,
+                    attributes: ['name', 'price']
+                }]
+            },
+            {
+                model: userSchema,
+                attributes: ['email']
+            }
+        ]
+    })
+
     let statusAccepted = await orderDetailsSchema.count({
         where: {
             status: "ACCEPTED"
         }
     })
+
+    let accepted = await orderDetailsSchema.findAll({
+        where: {
+            status: "ACCEPTED"
+        },
+        attributes: ['id', 'total', 'status', 'payment_status'],
+        include: [{
+                model: orderItemsSchema,
+                attributes: ['quantity'],
+                include: [{
+                    model: productSchema,
+                    attributes: ['name', 'price']
+                }]
+            },
+            {
+                model: userSchema,
+                attributes: ['email']
+            }
+        ]
+    })
+
     let statusCancelled = await orderDetailsSchema.count({
         where: {
             status: "CANCELLED"
         }
     })
+
+    let cancelled = await orderDetailsSchema.findAll({
+        where: {
+            status: "CANCELLED"
+        },
+        attributes: ['id', 'total', 'status', 'payment_status'],
+        include: [{
+                model: orderItemsSchema,
+                attributes: ['quantity'],
+                include: [{
+                    model: productSchema,
+                    attributes: ['name', 'price']
+                }]
+            },
+            {
+                model: userSchema,
+                attributes: ['email']
+            }
+        ]
+    })
     result.placed = statusPlaced
     result.accepted = statusAccepted
     result.cancelled = statusCancelled
+    result.allPlaced = placed
+    result.allAccepted = accepted
+    result.allCancelled = cancelled
     return result
 }
 
