@@ -92,7 +92,7 @@
             <li>
                 <a class="active" href="http://localhost:3000/products">Products</a>
             </li>
-            <div style="padding-top: 15px;padding: 10px;">Cart</div>
+            <div style="padding-top: 15px;padding: 10px;">Cart<i class="fa fa-shopping-cart" style="font-size:24px"></i></div>
         </ul>
 
     </div>
@@ -101,7 +101,9 @@
         <div id="demo"></div>
     </div>
     <br><br><br><br>
-    <div id="pay" style="background-color:black;"><button style="width: 33%; padding:10px;background-color: aliceblue;color: black;font-size: x-large;" onclick="payment()"><b id="total"> Add products to Cart </b></button></div>
+    <div id="pay" style="background-color:black;">
+        <button style="width: 33%; padding:10px;background-color: aliceblue;color: black;font-size: x-large;" onclick="payment()"><b id="total"> Add products to the Cart </b></button>
+    </div>
 </body>
 <script src="https://checkout.razorpay.com/v1/checkout.js">
 </script>
@@ -121,6 +123,7 @@
         console.log(resData.data);
         if (resData.status == 200) {
             let text = "";
+            sessionStorage.setItem('length', resData.data.length)
             for (let i = 0; i < resData.data.length; i++) {
                 let j = i + 1
                 if (sessionStorage.getItem(`id_${j}`) != null) {
@@ -158,6 +161,7 @@
             quant = sessionStorage.getItem(`quantity_${j}`)
             let price = sessionStorage.getItem(`price_${j}`)
             total_amount =total_amount  + quant * price
+            sessionStorage.setItem('total_amount',total_amount)
             document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
         }    
     }
@@ -171,9 +175,74 @@
             quant = document.getElementById(`quantity${i}`).value   
             let price = sessionStorage.getItem(`price_${j}`)
             total_amount =total_amount  + quant * price
+            sessionStorage.setItem('total_amount',total_amount)
             document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
         }    
     }
+    }
+    async function payment() {
+        var token = sessionStorage.getItem('token')
+        var amount = sessionStorage.getItem('total_amount')
+        let pay = await fetch("/payment", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: amount,
+            })
+        });
+        let paymentData = await pay.json();
+
+        var options = {
+            "key": "rzp_test_0GpnKLHZLZKsPm", // Enter the Key ID generated from the Dashboard
+            "amount": amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "order_id": paymentData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": async function(response) {
+                if (response.razorpay_payment_id) {
+                    for (let i = 0;i<sessionStorage.getItem('length'); i++) {
+                        let j = i + 1
+                     if (sessionStorage.getItem(`id_${j}`) != null) {
+                        let order = await fetch("/orderProduct",{
+                        method:"POST",
+                        headers:{
+                            "Content-type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body:JSON.stringify({
+                            product_id:sessionStorage.getItem(`id_${j}`),
+                            quantity:document.getElementById(`quantity${i}`).value ,
+                        })
+                    });
+                    let orderData=await order.json()
+
+                    let change= await fetch("/changePaymentStatus",{
+                        method:"PUT",
+                        headers:{
+                            "Content-type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body:JSON.stringify({
+                            id:orderData.data.result.id
+                        })
+                    })
+                        sessionStorage.removeItem(`id_${j}`)
+                        sessionStorage.removeItem(`name_${j}`)
+                        sessionStorage.removeItem(`price_${j}`)
+                        sessionStorage.removeItem(`category_${j}`)
+                        sessionStorage.removeItem(`quantity_${j}`)
+                    }  
+            }
+            location.reload()
+                        main()       
+                }else{
+                    alert("ERROR")
+                }
+            },
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
     }
     main()
 </script>

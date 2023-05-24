@@ -36,11 +36,11 @@ app.get('/admin', (req, res) => {
     res.render('admin', {});
 });
 
-// order counted
+// order status by count
 app.get('/orderCount', (req, res) => {
     res.render('count', {});
 });
-
+//cart
 app.get('/myCart', (req, res) => {
     res.render('cart', {});
 });

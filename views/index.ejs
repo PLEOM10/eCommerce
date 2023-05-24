@@ -111,7 +111,7 @@
 
                 text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>" +
                     resData.data[i].name + "</b></h4>" + "<p> Price : Rs." + resData.data[i].price + "</p>" + "<p> Category : " + resData.data[i].product_category.category +
-                    "</p>" + "<p> Stock : " + resData.data[i].product_inventory.stock + "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" min="1" max="5"></p>` + '</div>' +
+                    "</p>" + "<p> Stock : " + resData.data[i].product_inventory.stock + "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" value="1" min="1" max="5"></p>` + '</div>' +
                     `<button type="submit" id="btn${i}" onclick="addToCart('${resData.data[i].id}','${resData.data[i].name}','${resData.data[i].price}','${resData.data[i].product_category.category}','${i}')">` + 'Add Product to Cart' + "</button>" +
                     '</div>' + '</span>'
             }

@@ -56,7 +56,6 @@ orderProduct = async(payload, body) => {
     let result = { data: null };
     const { product_id, quantity } = body;
 
-
     let user = await userSchema.findOne({
         where: {
             id: payload.id
@@ -88,6 +87,7 @@ orderProduct = async(payload, body) => {
     result.data = order_items
     result.product = product.name
     result.email = user.email
+    result.id = order_id
     return result
 }
 
