@@ -3,52 +3,34 @@ const { orderItemsSchema } = require("../../models/orderItems")
 const { productSchema } = require("../../models/product")
 const { userSchema } = require("../../models/user")
 
-getOrder = async(body) => {
+getOrder = async(id) => {
     let result = { data: null };
-
-    if (body.id) {
-        let order = await orderDetailsSchema.findAll({
-            where: {
-                user_id: body.id
-            },
-            attributes: ['id', 'total', 'status', 'payment_status'],
-            include: [{
-                    model: orderItemsSchema,
-                    attributes: ['quantity'],
-                    include: [{
-                        model: productSchema,
-                        attributes: ['name', 'price']
-                    }]
-                },
-                {
-                    model: userSchema,
-                    attributes: ['email']
-                }
-            ]
-        })
-        result.code = 201
-        result.data = order
-    } else {
-        let order = await orderDetailsSchema.findAll({
-
-            attributes: ['id', 'total', 'status', 'payment_status'],
-            include: [{
-                    model: orderItemsSchema,
-                    attributes: ['quantity'],
-                    include: [{
-                        model: productSchema,
-                        attributes: ['name', 'price']
-                    }]
-                },
-                {
-                    model: userSchema,
-                    attributes: ['email']
-                }
-            ]
-        })
-        result.code = 201
-        result.data = order
+    let whereParams = {}
+    if (id) {
+        whereParams = {
+            user_id: id
+        }
     }
+    let order = await orderDetailsSchema.findAll({
+        where: whereParams,
+        attributes: ['id', 'total', 'status', 'payment_status'],
+        include: [{
+                model: orderItemsSchema,
+                attributes: ['quantity'],
+                include: [{
+                    model: productSchema,
+                    attributes: ['name', 'price']
+                }]
+            },
+            {
+                model: userSchema,
+                attributes: ['email']
+            }
+        ]
+    })
+    result.code = 201
+    result.data = order
+
     return result
 }
 

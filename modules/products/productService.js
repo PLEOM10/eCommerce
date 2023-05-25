@@ -2,7 +2,7 @@ const { productSchema } = require("../../models/product");
 const { productCategorySchema } = require("../../models/productCategory")
 const { productInventorySchema } = require("../../models/productInventory")
 
-addProduct = async(req, payload, body) => {
+addProduct = async(body) => {
     let result = { data: null };
     const {
         id,
@@ -13,11 +13,15 @@ addProduct = async(req, payload, body) => {
     } = body;
 
     let product = new productSchema()
-    product.id = id;
-    product.name = name;
-    product.category_id = category_id;
-    product.inventory_id = inventory_id;
-    product.price = price;
+    let data = {
+        id: id,
+        name: name,
+        category_id: category_id,
+        inventory_id: inventory_id,
+        price: price
+    }
+
+    product.data = data
     await product.save();
     result.code = 201;
     result.data = product;
@@ -25,7 +29,6 @@ addProduct = async(req, payload, body) => {
 }
 
 viewProduct = async(body) => {
-
     let result = { data: null, message: null };
     if (body.category_id) {
         const category_id = body.category_id;

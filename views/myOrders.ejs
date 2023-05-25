@@ -36,6 +36,7 @@
             display: inline-block;
             margin: 1%;
             background-color: white;
+            border-radius: 10px;
         }
         
         .card:hover {
@@ -100,31 +101,26 @@
     async function main() {
         var id = sessionStorage.getItem('id')
         var token = sessionStorage.getItem('token')
-        let result = await fetch("/getOrder", {
+        let result = await fetch(`/getMyOrder/${id}`, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify({
-                id: id
-            }),
+            }
         });
         console.log(id)
         let resData = await result.json();
         if (resData.status == 200) {
             let text = "";
             for (let i = 0; i < resData.data.result.data.length; i++) {
-
-
                 if (resData.data.result.data[i].payment_status != 'PAID') {
-
                     resData.data.result.data[i].status = 'PENDING'
                 }
                 text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
                     resData.data.result.data[i].total + "</b></h4>" + "<p> From: " + resData.data.result.data[i].user.email +
                     "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" + "<p> Quantity : " +
-                    resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p> Status : ' + resData.data.result.data[i].status + '</p>' + '<p>Payment Status : ' + resData.data.result.data[i].payment_status + '</p>' + '</div>' + '</div>' + '</span>'
+                    resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p> Status : ' + resData.data.result.data[i].status + '</p>' +
+                    '<p>Payment Status : ' + resData.data.result.data[i].payment_status + '</p>' + '</div>' + '</div>' + '</span>'
             }
             document.getElementById("demo").innerHTML = text;
         } else {

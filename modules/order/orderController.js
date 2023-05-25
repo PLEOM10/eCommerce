@@ -11,8 +11,24 @@ getOrder = async(req, res, next) => {
             return next(isValid);
         }
         let body = req.body;
-        let payload = req.decoded;
         let result = await orderService.getOrder(body);
+        let re = { result }
+        helper.send(res, "Order Details", re);
+    } catch (error) {
+        if (error.isJoi)
+            return next(createHttpError(400, { message: error.message }));
+        next(error)
+    }
+}
+
+getMyOrder = async(req, res, next) => {
+    try {
+        let isValid = await getOrderReq.validateAsync(req.body);
+        if (isValid instanceof Error) {
+            return next(isValid);
+        }
+        let params = req.params['id'];
+        let result = await orderService.getOrder(params);
         let re = { result }
         helper.send(res, "Order Details", re);
     } catch (error) {
@@ -81,6 +97,7 @@ getCount = async(req, res, next) => {
 
 module.exports = {
     getOrder,
+    getMyOrder,
     changeStatus,
     orderProduct,
     getCount,

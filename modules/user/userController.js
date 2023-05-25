@@ -11,7 +11,7 @@ signUp = async(req, res, next) => {
         }
         let body = req.body;
         let result = await userService.signUp(body);
-        helper.send(res, "User Added", result.data);
+        helper.send(res, result.message, result.data, result.code);
     } catch (error) {
         if (error.isJoi)
             return next(createHttpError(400, { message: error.message }));

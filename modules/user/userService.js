@@ -6,18 +6,32 @@ const bcrypt = require("bcryptjs");
 
 signUp = async(body) => {
     let result = { data: null };
-    var { username, password, first_name, last_name, telephone } = body;
-    password = bcrypt.hashSync(password, 10)
-    let user = await userSchema.create({
-        username: username,
-        password: password,
-        first_name: first_name,
-        last_name: last_name,
-        telephone: telephone
-    });
-    result.code = 201;
-    result.data = user;
-    return result;
+    var { username, password, first_name, last_name, telephone, email } = body;
+    let unq = await userSchema.findOne({
+        where: {
+            email: email
+        }
+    })
+    if (!unq) {
+        password = bcrypt.hashSync(password, 10)
+        let user = await userSchema.create({
+            username: username,
+            password: password,
+            first_name: first_name,
+            last_name: last_name,
+            telephone: telephone,
+            email: email
+        });
+        result.code = 201;
+        result.message = "Account Created"
+        result.data = user;
+        return result;
+    } else {
+        result.code = 500
+        result.message = "Account with this email Exists"
+        result.data = []
+        return result
+    }
 }
 
 logIn = async(body) => {

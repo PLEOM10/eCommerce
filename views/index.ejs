@@ -36,6 +36,7 @@
             display: inline-block;
             margin: 1%;
             background-color: white;
+            border-radius: 10px;
         }
         
         .card:hover {
@@ -59,7 +60,10 @@
             background-color: black;
             color: white;
             padding-top: 5px;
-            padding: 5px
+            padding: 5px;
+            border: 3px solid white;
+            border-radius: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
         
         #navbar {
@@ -100,7 +104,6 @@
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + token
             },
-
         });
         let resData = await result.json();
         console.log(resData.data);
@@ -133,7 +136,6 @@
             sessionStorage.setItem(`price_${id}`, price)
             sessionStorage.setItem(`category_${id}`, category)
             sessionStorage.setItem(`quantity_${id}`, quantity)
-
         }
     }
 

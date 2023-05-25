@@ -11,48 +11,19 @@
         * {
             box-sizing: border-box;
         }
-        /* Full-width input fields */
-        /* Add a background color when the inputs get focus */
-        /* Set a style for all buttons */
-        /* Extra styles for the cancel button */
-        
-        .cancelbtn {
-            padding: 14px 20px;
-            background-color: #f44336;
-        }
-        /* Float cancel and signup buttons and add an equal width */
-        
-        .cancelbtn,
-        .signupbtn {
-            float: left;
-            width: 50%;
-        }
-        /* Add padding to container elements */
-        
-        .container1 {
-            padding: 16px;
-        }
-        /* The Modal (background) */
         
         .modal {
             display: none;
-            /* Hidden by default */
             position: fixed;
-            /* Stay in place */
             z-index: 1;
-            /* Sit on top */
             left: 0;
             top: 0;
             width: 100%;
-            /* Full width */
             height: 100%;
-            /* Full height */
             overflow: auto;
-            /* Enable scroll if needed */
             background-color: #474e5d;
             padding-top: 50px;
         }
-        /* Modal Content/Box */
         
         .modal-content {
             background-color: #fefefe;
@@ -252,6 +223,7 @@
             document.getElementById("demo").innerHTML = text;
         }
     }
+
     async function placed() {
         document.getElementById('id01').style.display = 'block'
         var token = sessionStorage.getItem('token')
@@ -263,7 +235,6 @@
             },
         });
         let resData = await result.json();
-        console.log(resData.data.result.allPlaced[1])
         if (resData.status == 200) {
             let text = "";
             for (let i = 1; i < resData.data.result.allPlaced.length; i++) {
@@ -291,7 +262,6 @@
             },
         });
         let resData = await result.json();
-        console.log(resData.data.result.allAccepted[1])
         if (resData.status == 200) {
             let text = "";
             for (let i = 1; i < resData.data.result.allAccepted.length; i++) {
@@ -311,7 +281,6 @@
     async function cancelled() {
         document.getElementById('id01').style.display = 'block'
         var token = sessionStorage.getItem('token')
-        console.log(token)
         let result = await fetch("/getCount", {
             method: 'GET',
             headers: {
@@ -320,12 +289,12 @@
             },
         });
         let resData = await result.json();
-        console.log(resData.data.result.allPlaced[1])
         if (resData.status == 200) {
             let text = "";
             for (let i = 1; i < resData.data.result.allCancelled.length; i++) {
-                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
-                    resData.data.result.allCancelled[i].total + "</b></h4>" + '<p> Name : ' + resData.data.result.allCancelled[i].order_items[0].product.name + '</p>' +
+                text += '<span>' + '<div class="card">' + '<div class="container">' +
+                    "<h4><b>Total : Rs." + resData.data.result.allCancelled[i].total +
+                    "</b></h4>" + '<p> Name : ' + resData.data.result.allCancelled[i].order_items[0].product.name + '</p>' +
                     '<p> Email : ' + resData.data.result.allCancelled[i].user.email + '</p>' +
                     '<p>Payment Status : ' + resData.data.result.allCancelled[i].payment_status + '</p>' +
                     '</div>' + '</div>' + '</span>'

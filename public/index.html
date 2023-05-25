@@ -70,33 +70,23 @@
     
     .modal {
         display: none;
-        /* Hidden by default */
         position: fixed;
-        /* Stay in place */
         z-index: 1;
-        /* Sit on top */
         left: 0;
         top: 0;
         width: 100%;
-        /* Full width */
         height: 100%;
-        /* Full height */
         overflow: auto;
-        /* Enable scroll if needed */
         background-color: #474e5d;
         padding-top: 50px;
     }
-    /* Modal Content/Box */
     
     .modal-content {
         background-color: #fefefe;
         margin: 5% auto 15% auto;
-        /* 5% from the top, 15% from the bottom and centered */
         border: 1px solid #888;
         width: 80%;
-        /* Could be more or less, depending on screen size */
     }
-    /* Style the horizontal ruler */
     
     hr {
         border: 1px solid #f1f1f1;
@@ -137,7 +127,7 @@
     }
     
     #bg_img {
-        background-image: url(bg_img.jpg);
+        background-image: url(bg_img_index.jpg);
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -168,8 +158,6 @@
         </div>
         <div style="width:100%;height: 20%;padding-bottom: 12%;"></div>
     </div>
-    <div></div>
-
 
     <div id="id01" class="modal" style="background-color:RGB(251 233 13) ;">
         <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -192,6 +180,9 @@
 
                 <label for="tlphn"><b>Telephone</b></label>
                 <input type="number" placeholder="Enter your Telephone" id="s_num" name="telephone" required>
+
+                <label for="tlphn"><b>Email</b></label>
+                <input type="text" placeholder="Enter your Email" id="s_email" name="email" required>
 
                 <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
@@ -223,6 +214,10 @@
         </form>
     </div>
     <script>
+        async function main() {
+            sessionStorage.removeItem('token')
+        }
+
         var modal = document.getElementById('id01 ');
         var modal1 = document.getElementById('id02');
         window.onclick = function(event) {
@@ -277,17 +272,22 @@
                     password: document.getElementById('s_pswd').value,
                     first_name: document.getElementById('s_fname').value,
                     last_name: document.getElementById('s_lname').value,
-                    telephone: document.getElementById('s_num').value
+                    telephone: document.getElementById('s_num').value,
+                    email: document.getElementById('s_email').value,
                 })
             });
             let resData = await result.json();
 
-            if (resData.status == 200) {
+            if (resData.status == 201) {
                 alert(resData.message);
+            } else if (resData.status == 500) {
+                alert(resData.message)
             } else {
                 alert(resData.error.message)
             }
         }
+
+        main()
     </script>
 
 </body>

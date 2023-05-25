@@ -40,12 +40,20 @@ const telephone = Joi.string().length(10).pattern(/^[0-9]+$/).required().message
     'any.required': `telephone is a required field`
 });
 
+const email = Joi.string().email().required().messages({
+    'string.base': `email should be a type of 'text'`,
+    'string.empty': `email cannot be an empty field`,
+    'string.email': 'Must be a valid email',
+    'any.required': `email is a required field`
+});
+
 signUpReq = Joi.object({
     username,
     password,
     first_name,
     last_name,
-    telephone
+    telephone,
+    email
 })
 
 logInReq = Joi.object({

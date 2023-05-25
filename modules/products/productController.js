@@ -10,8 +10,7 @@ addProduct = async(req, res, next) => {
             return next(isValid)
         }
         let body = req.body;
-        let payload = req.decoded;
-        let result = await productService.addProduct(req, payload, body);
+        let result = await productService.addProduct(body);
         helper.send(res, "Product Added", result.data);
     } catch (error) {
         if (error.isJoi)

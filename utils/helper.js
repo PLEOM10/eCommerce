@@ -7,9 +7,7 @@ send = (res, message, data = "", status = 200) => {
         data
     }
     res.status(status).send(result);
-
 };
-
 
 
 module.exports = {
