@@ -9,7 +9,6 @@
     * {
         box-sizing: border-box;
     }
-    /* Full-width input fields */
     
     input[type=text],
     input[type=number] {
@@ -29,7 +28,6 @@
         border: none;
         background: #f1f1f1;
     }
-    /* Add a background color when the inputs get focus */
     
     input[type=text]:focus,
     input[type=number],
@@ -37,7 +35,6 @@
         background-color: #ddd;
         outline: none;
     }
-    /* Set a style for all buttons */
     
     button {
         background-color: #44e3ff;
@@ -55,26 +52,22 @@
     button:hover {
         opacity: 1;
     }
-    /* Extra styles for the cancel button */
     
     .cancelbtn {
         padding: 14px 20px;
         background-color: #f44336;
         padding: 1%;
     }
-    /* Float cancel and signup buttons and add an equal width */
     
     .cancelbtn,
     .signupbtn {
         float: left;
         width: 50%;
     }
-    /* Add padding to container elements */
     
     .container {
         padding: 16px;
     }
-    /* The Modal (background) */
     
     .modal {
         display: none;
@@ -93,14 +86,13 @@
         background-color: #fefefe;
         margin: 5% auto 15% auto;
         border: 1px solid #888;
-        width: 80%;
+        width: 40%;
     }
     
     hr {
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
     }
-    /* The Close Button (x) */
     
     .close {
         position: absolute;
@@ -167,7 +159,7 @@
         <div style="width:100%;height: 20%;padding-bottom: 12%;"></div>
     </div>
 
-    <div id="id01" class="modal" style="background-color:RGB(251 233 13) ;">
+    <div id="id01" class="modal" style="background-color: transparent;backdrop-filter: blur(10px);">
         <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content">
             <div class="container">
@@ -202,7 +194,7 @@
             </div>
         </form>
     </div>
-    <div id="id02" class="modal" style="background-color: RGB(251 233 13);">
+    <div id="id02" class="modal" style="background-color: transparent;backdrop-filter: blur(10px);">
         <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form class="modal-content">
             <div class="container">

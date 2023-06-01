@@ -176,19 +176,19 @@
                 </div>
             </div>
         </div>
-        <div id="id01" class="modal" style="background-color: RGB(251 233 13);">
+        <div id="id01" class="modal" style="background-color: transparent;backdrop-filter: blur(10px);">
             <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
             <div class="modal-content">
                 <div class="container1" id="all_placed"></div>
             </div>
         </div>
-        <div id="id02" class="modal" style="background-color: RGB(251 233 13);">
+        <div id="id02" class="modal" style="background-color: transparent;backdrop-filter: blur(10px);">
             <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
             <div class="modal-content">
                 <div class="container1" id="all_accepted"></div>
             </div>
         </div>
-        <div id="id03" class="modal" style="background-color: RGB(251 233 13);">
+        <div id="id03" class="modal" style="background-color: transparent;backdrop-filter: blur(10px);">
             <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
             <div class="modal-content">
                 <div class="container1" id="all_cancelled"></div>
@@ -227,7 +227,7 @@
             document.getElementById("accepted ").innerHTML = "Count : " + resData.data.result.accepted
             document.getElementById("cancelled ").innerHTML = "Count : " + resData.data.result.cancelled
         } else {
-            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            let text = '<img src="images/f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
     }
@@ -254,7 +254,7 @@
             }
             document.getElementById("all_placed").innerHTML = text;
         } else {
-            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            let text = '<img src="images/f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
     }
@@ -281,7 +281,7 @@
             }
             document.getElementById("all_accepted").innerHTML = text;
         } else {
-            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            let text = '<img src="images/f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
     }
@@ -309,7 +309,7 @@
             }
             document.getElementById("all_placed").innerHTML = text;
         } else {
-            let text = '<img src="f.jpg " width=100% height=605px padding=2px>';
+            let text = '<img src="images/f.jpg" width=100% height=605px padding=2px>';
             document.getElementById("demo").innerHTML = text;
         }
     }
