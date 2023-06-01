@@ -48,11 +48,16 @@
         }
         
         #demo {
-            background-image: url(bg_img.jpg);
+            background-image: url(images/bg_img.jpg);
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
+        }
+        
+        #content {
+            backdrop-filter: blur(10px);
+            min-height: 500px;
         }
         
         button {
@@ -60,10 +65,21 @@
             background-color: black;
             color: white;
             padding-top: 5px;
-            padding: 5px;
+            padding: 15px;
             border: 3px solid white;
             border-radius: 10px;
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: large;
+        }
+        
+        button:hover {
+            background-color: green;
+            color: #111;
+            box-shadow: 0px 10px 8px black;
+            border: 0px;
+            align-items: center;
+            margin: 5px;
+            width: 97%;
         }
         
         #navbar {
@@ -92,7 +108,9 @@
     </div>
     <br><br><br>
     <div>
-        <div id="demo"></div>
+        <div id="demo">
+            <div id="content"></div>
+        </div>
     </div>
 </body>
 <script>
@@ -115,13 +133,13 @@
                 text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>" +
                     resData.data[i].name + "</b></h4>" + "<p> Price : Rs." + resData.data[i].price + "</p>" + "<p> Category : " + resData.data[i].product_category.category +
                     "</p>" + "<p> Stock : " + resData.data[i].product_inventory.stock + "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" value="1" min="1" max="5"></p>` + '</div>' +
-                    `<button type="submit" id="btn${i}" onclick="addToCart('${resData.data[i].id}','${resData.data[i].name}','${resData.data[i].price}','${resData.data[i].product_category.category}','${i}')">` + 'Add Product to Cart' + "</button>" +
+                    `<button type="submit" id="btn${i}" onclick="addToCart('${resData.data[i].id}','${resData.data[i].name}','${resData.data[i].price}','${resData.data[i].product_category.category}','${i}')">` + '<b>Add Product to Cart</b>' + "</button>" +
                     '</div>' + '</span>'
             }
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
         }
     }
 

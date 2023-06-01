@@ -57,6 +57,7 @@ orderProduct = async(req, res, next) => {
         next(error)
     }
 }
+
 changeStatus = async(req, res, next) => {
     try {
         body = req.body;
@@ -70,6 +71,7 @@ changeStatus = async(req, res, next) => {
         next(error)
     }
 }
+
 changePaymentStatus = async(req, res, next) => {
     try {
         body = req.body;

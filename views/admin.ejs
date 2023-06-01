@@ -36,6 +36,7 @@
             display: inline-block;
             margin: 1%;
             background-color: white;
+            border-radius: 10px;
         }
         
         .card:hover {
@@ -47,12 +48,17 @@
         }
         
         #demo {
-            background-image: url(bg_img.jpg);
+            background-image: url(images/bg_img.jpg);
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
             min-height: 570px;
+        }
+        
+        #content {
+            backdrop-filter: blur(10px);
+            min-height: 500px;
         }
         
         button {
@@ -61,7 +67,10 @@
             color: white;
             padding-top: 5px;
             padding: 5px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: large;
+            border-radius: 10px;
+            border: 3px solid white;
         }
         
         button[disabled] {
@@ -84,7 +93,6 @@
     </style>
 </head>
 
-
 <body style="margin: 0;">
     <div id="navbar">
         <ul>
@@ -96,7 +104,9 @@
     </div>
     <br><br><br>
     <div>
-        <div id="demo"></div>
+        <div id="demo">
+            <div id="content"></div>
+        </div>
     </div>
 </body>
 <script>
@@ -119,13 +129,20 @@
                     buttonStatus = "disabled"
                     displayStatus = "ACCEPTED"
                 }
-                text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>Total : Rs." +
-                    resData.data.result.data[i].total + "</b></h4>" + "<p> From: " + resData.data.result.data[i].user.email + "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" + "<p> Quantity : " + resData.data.result.data[i].order_items[0].quantity + "</p>" + '<p>' + resData.data.result.data[i].status + '</p>' + '</div>' + `<button id="btn${i}" onclick="acceptOrder('${resData.data.result.data[i].id}','${resData.data.result.data[i].user.email}','${resData.data.result.data[i].order_items[0].product.name}','${resData.data.result.data[i].order_items[0].quantity}')" ${buttonStatus}>` + `${displayStatus}` + "</button>" + '</div>' + '</span>'
+                text += '<span>' + '<div class="card">' + '<div class="container">' +
+                    "<h4><b>Total : Rs." + resData.data.result.data[i].total + "</b></h4>" +
+                    "<p> From: " + resData.data.result.data[i].user.email +
+                    "</p>" + "<p>  Product Name : " + resData.data.result.data[i].order_items[0].product.name + "</p>" +
+                    "<p> Quantity : " + resData.data.result.data[i].order_items[0].quantity + "</p>" +
+                    '<p>' + resData.data.result.data[i].status + '</p>' + '</div>' +
+                    `<button id="btn${i}" onclick="acceptOrder('${resData.data.result.data[i].id}','${resData.data.result.data[i].user.email}','${resData.data.result.data[i].order_items[0].product.name}','${resData.data.result.data[i].order_items[0].quantity}')" ${buttonStatus}>` + `${displayStatus}` + "</button>" +
+                    '</div>' +
+                    '</span>'
             }
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
         }
     }
 

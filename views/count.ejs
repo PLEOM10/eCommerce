@@ -91,7 +91,7 @@
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
-            width: 30%;
+            width: 31%;
             display: inline-block;
             margin: 1%;
             background-color: white;
@@ -106,12 +106,17 @@
         }
         
         #demo {
-            background-image: url(bg_img.jpg);
+            background-image: url(images/bg_img.jpg);
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
             min-height: 570px;
+        }
+        
+        #content {
+            backdrop-filter: blur(10px);
+            min-height: 91vh;
         }
         
         button {
@@ -120,6 +125,7 @@
             color: white;
             padding-top: 5px;
             padding: 5px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
         
         #navbar {
@@ -146,26 +152,28 @@
     <br><br><br>
     <div>
         <div id="demo">
-            <div class="card ">
-                <div class="container ">
-                    <h4><b>PLACED</b></h4>
-                    <p id="placed "></p>
+            <div id="content">
+                <div class="card ">
+                    <div class="container ">
+                        <h4><b>PLACED</b></h4>
+                        <p id="placed "></p>
+                    </div>
+                    <button onclick="placed()">View</button>
                 </div>
-                <button onclick="placed()">View</button>
-            </div>
-            <div class="card ">
-                <div class="container ">
-                    <h4 style="color:green "><b>ACCEPTED</b></h4>
-                    <p id="accepted "></p>
+                <div class="card ">
+                    <div class="container ">
+                        <h4 style="color:green "><b>ACCEPTED</b></h4>
+                        <p id="accepted "></p>
+                    </div>
+                    <button onclick="accepted()">View</button>
                 </div>
-                <button onclick="accepted()">View</button>
-            </div>
-            <div class="card ">
-                <div class="container ">
-                    <h4 style="color:red "><b>CANCELLED</b></h4>
-                    <p id="cancelled "></p>
+                <div class="card ">
+                    <div class="container ">
+                        <h4 style="color:red "><b>CANCELLED</b></h4>
+                        <p id="cancelled "></p>
+                    </div>
+                    <button onclick="cancelled()">View</button>
                 </div>
-                <button onclick="cancelled()">View</button>
             </div>
         </div>
         <div id="id01" class="modal" style="background-color: RGB(251 233 13);">

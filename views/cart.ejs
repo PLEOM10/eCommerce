@@ -48,11 +48,16 @@
         }
         
         #demo {
-            background-image: url(bg_img.jpg);
+            background-image: url(images/bg_img.jpg);
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
+            min-height: 500px;
+        }
+        
+        #content {
+            backdrop-filter: blur(10px);
             min-height: 500px;
         }
         
@@ -61,10 +66,21 @@
             background-color: black;
             color: white;
             padding-top: 5px;
-            padding: 5px;
+            padding: 15px;
             border: 3px solid white;
             border-radius: 10px;
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: large;
+        }
+        
+        button:hover {
+            background-color: red;
+            color: #111;
+            box-shadow: 0px 10px 8px black;
+            border: 0px;
+            align-items: center;
+            margin: 5px;
+            width: 97%;
         }
         
         #navbar {
@@ -85,6 +101,20 @@
             bottom: 0px;
             padding: 10px;
         }
+        
+        #add {
+            width: 33%;
+            padding: 10px;
+            background-color: aliceblue;
+            color: black;
+            font-size: x-large;
+        }
+        
+        #add:hover {
+            background-color: green;
+            color: white;
+            border: 3px solid white;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -100,17 +130,20 @@
     </div>
     <br><br><br>
     <div>
-        <div id="demo"></div>
+        <div id="demo">
+            <div id="content"></div>
+        </div>
     </div>
     <br><br><br><br>
     <div id="pay" style="background-color:black;">
-        <button style="width: 33%; padding:10px;background-color: aliceblue;color: black;font-size: x-large;" onclick="payment()"><b id="total"> Add products to the Cart </b></button>
+        <button id="add" onclick="payment()"><b id="total"> Add products to the Cart </b></button>
     </div>
 </body>
 <script src="https://checkout.razorpay.com/v1/checkout.js">
 </script>
 <script>
     async function main() {
+        sessionStorage.setItem('total_amount', 0)
         var token = sessionStorage.getItem('token')
         let result = await fetch("/viewProduct", {
             method: 'GET',
@@ -118,8 +151,8 @@
                 "Content-type": "application/json",
                 "Authorization": "Bearer " + token
             },
-
         });
+
         let resData = await result.json();
         total(resData.data)
         console.log(resData.data);
@@ -129,18 +162,24 @@
             for (let i = 0; i < resData.data.length; i++) {
                 let j = i + 1
                 if (sessionStorage.getItem(`id_${j}`) != null) {
-                    text += '<span>' + '<div class="card">' + '<div class="container">' + "<h4><b>" +
-                        resData.data[i].name + "</b></h4>" + "<p> Price : Rs." + resData.data[i].price + "</p>" + "<p> Category : " + resData.data[i].product_category.category +
-                        "</p>" + `<p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" onchange="totalOnChange(${resData.data.length})" value="${sessionStorage.getItem(`quantity_${j}`)}" min="1" max="5"></p>` + '</div>' +
-                        `<button type="submit" id="btn${i}" onclick="remove('${j}')">` + 'Remove Product from Cart' + "</button>" +
-                        '</div>' + '</span>'
+                    text += `<span>
+                                <div class="card">
+                                    <div class="container">
+                                     <h4><b>${resData.data[i].name} </b></h4>
+                                        <p> Price : Rs. ${resData.data[i].price} </p>
+                                        <p> Category : ${resData.data[i].product_category.category} </p>
+                                        <p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" onchange="totalOnChange(${resData.data.length})" value="${sessionStorage.getItem(`quantity_${j}`)}" min="1" max="5"></p>
+                                    </div>
+                                    <button type="submit" id="btn${i}" onclick="remove('${j}')"><b>Remove Product from Cart</b></button>
+                                </div>
+                            </span>`
                     }
             }
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
             
         } else {
             let text = '<img src="f.jpg" width=100% height=605px padding=2px>';
-            document.getElementById("demo").innerHTML = text;
+            document.getElementById("content").innerHTML = text;
         }
     }
 
@@ -252,7 +291,7 @@
         var rzp1 = new Razorpay(options);
         rzp1.open();
         }else{
-            alert("no products")
+            location.href="http://localhost:3000/products"
         }
     }
     main()

@@ -1,18 +1,13 @@
 const { orderDetailsSchema } = require("../../models/orderDetails");
 const { orderItemsSchema } = require("../../models/orderItems")
 const { productSchema } = require("../../models/product")
+const { productInventorySchema } = require("../../models/productInventory")
 const { userSchema } = require("../../models/user")
 
 getOrder = async(id) => {
     let result = { data: null };
-    let whereParams = {}
-    if (id) {
-        whereParams = {
-            user_id: id
-        }
-    }
+
     let order = await orderDetailsSchema.findAll({
-        where: whereParams,
         attributes: ['id', 'total', 'status', 'payment_status'],
         include: [{
                 model: orderItemsSchema,
@@ -48,7 +43,7 @@ orderProduct = async(payload, body) => {
         where: {
             id: product_id
         },
-        attributes: ['name', 'price']
+        attributes: ['name', 'price', 'inventory_id']
     })
 
     let total = quantity * product.price;
@@ -65,6 +60,15 @@ orderProduct = async(payload, body) => {
         product_id: product_id,
         quantity: quantity
     })
+
+    let productInventory = await productInventorySchema.findOne({
+        where: {
+            id: product.inventory_id
+        }
+    })
+
+    productInventory.quantity = productInventory.quantity - quantity
+    await productInventory.save()
 
     result.data = order_items
     result.product = product.name

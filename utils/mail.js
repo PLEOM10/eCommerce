@@ -30,7 +30,6 @@ sendMail = async(email, product, quantity) => {
             console.log('Email sent:', info.response);
         }
     });
-
 }
 
 acceptMail = async(email, product, quantity) => {
