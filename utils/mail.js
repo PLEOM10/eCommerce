@@ -50,7 +50,10 @@ acceptMail = async(email, product, quantity) => {
         to: email, // list of receivers
         subject: "Order Accepted", // Subject line
         text: "Order Acceptance", // plain text body
-        html: `<h1>Order Acceptance Mail</h1><div><b> Your order : ${product} &times; ${quantity}</b></div>`,
+        html: `<h1>Order Acceptance Mail</h1>
+                    <div>
+                        <b> Your order : ${product} &times; ${quantity}</b> , has been accepted
+                    </div>`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

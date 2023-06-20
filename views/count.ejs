@@ -28,26 +28,23 @@
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto 15% auto;
-            /* 5% from the top, 15% from the bottom and centered */
             border: 1px solid #888;
             width: 80%;
-            /* Could be more or less, depending on screen size */
         }
-        /* Style the horizontal ruler */
         
         hr {
             border: 1px solid #f1f1f1;
             margin-bottom: 25px;
         }
-        /* The Close Button (x) */
         
         .close {
-            position: absolute;
+            position: sticky;
             right: 35px;
-            top: 15px;
+            top: 10px;
             font-size: 40px;
             font-weight: bold;
-            color: #f1f1f1;
+            color: black;
+            float: right;
         }
         
         .close:hover,
@@ -55,7 +52,6 @@
             color: #f44336;
             cursor: pointer;
         }
-        /* Clear floats */
         
         .clearfix::after {
             content: "";
@@ -126,6 +122,7 @@
             padding-top: 5px;
             padding: 5px;
             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            cursor: pointer;
         }
         
         #navbar {
@@ -208,7 +205,6 @@
             modal1.style.display = "none"
         }
     }
-
 
     async function main() {
         var token = sessionStorage.getItem('token')

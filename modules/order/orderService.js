@@ -4,7 +4,7 @@ const { productSchema } = require("../../models/product")
 const { productInventorySchema } = require("../../models/productInventory")
 const { userSchema } = require("../../models/user")
 
-getOrder = async(id) => {
+getOrder = async() => {
     let result = { data: null };
 
     let order = await orderDetailsSchema.findAll({
@@ -108,6 +108,7 @@ changePaymentStatus = async(body) => {
     result.data = order;
     return result;
 }
+
 getCount = async() => {
     let result = {}
     let statusPlaced = await orderDetailsSchema.count({
@@ -196,10 +197,12 @@ getCount = async() => {
     return result
 }
 
+
+
 module.exports = {
     getOrder,
     orderProduct,
     changeStatus,
     getCount,
-    changePaymentStatus
+    changePaymentStatus,
 }

@@ -10,8 +10,7 @@ getOrder = async(req, res, next) => {
         if (isValid instanceof Error) {
             return next(isValid);
         }
-        let body = req.body;
-        let result = await orderService.getOrder(body);
+        let result = await orderService.getOrder();
         let re = { result }
         helper.send(res, "Order Details", re);
     } catch (error) {
@@ -37,7 +36,6 @@ getMyOrder = async(req, res, next) => {
         next(error)
     }
 }
-
 
 orderProduct = async(req, res, next) => {
     try {
@@ -96,6 +94,8 @@ getCount = async(req, res, next) => {
         next(error)
     }
 }
+
+
 
 module.exports = {
     getOrder,
