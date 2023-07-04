@@ -3,7 +3,7 @@ var debug = require('debug')('node_api:server');
 var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3001');
-console.log(`Visit address "http://localhost:${process.env.PORT}/"`);
+console.log(`\x1b[32mVisit address : \x1B[34m"http://localhost:${process.env.PORT}/"`);
 app.set('port', port);
 
 

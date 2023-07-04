@@ -1,309 +1,328 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-        
-        li {
-            float: left;
-            font-size: large;
-        }
-        
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        
-        li a:hover {
-            background-color: #111;
-        }
-        
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-            width: 23%;
-            display: inline-block;
-            margin: 1%;
-            background-color: white;
-            border-radius: 10px;
-        }
-        
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .container {
-            padding: 2px 16px;
-        }
-        
-        #demo {
-            background-image: url(images/bg_img.jpg);
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            min-height: 500px;
-        }
-        
-        #content {
-            backdrop-filter: blur(10px);
-            min-height: 500px;
-        }
-        
-        button {
-            width: 100%;
-            background-color: black;
-            color: white;
-            padding-top: 5px;
-            padding: 15px;
-            border: 0px solid white;
-            border-radius: 10px;
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            font-size: large;
-            margin: 5px;
-            width: 97%;
-        }
-        
-        button:hover {
-            background-color: rgb(255, 30, 0);
-            color: #111;
-            box-shadow: 0px 10px 8px black;
-            border: 0px;
-            align-items: center;
-            margin: 5px;
-            width: 97%;
-            transform: translateY(-5px);
-            cursor: pointer;
-        }
-        
-        button:active {
-            background-color: black;
-            color: white;
-        }
-        
-        #navbar {
-            text-align: center;
-            color: aliceblue;
-            font-size: x-large;
-            position: fixed;
-            width: 100%;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            background-color: #333;
-        }
-        
-        #pay {
-            text-align: center;
-            background-color: aliceblue;
-            position: fixed;
-            width: 100%;
-            bottom: 0px;
-            padding: 10px;
-        }
-        
-        #add {
-            width: 33%;
-            padding: 10px;
-            background-color: aliceblue;
-            color: black;
-            font-size: x-large;
-        }
-        
-        #add:hover {
-            background-color: green;
-            color: white;
-            border: 3px solid white;
-        }
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+        font-size: large;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
+
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        width: 22.7%;
+        display: inline-block;
+        margin: 1%;
+        background-color: white;
+        border-radius: 10px;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .container {
+        padding: 2px 16px;
+      }
+
+      #demo {
+        background-image: url(images/bg_img.jpg);
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 490px;
+      }
+
+      #content {
+        backdrop-filter: blur(10px);
+        min-height: 490px;
+      }
+
+      .button {
+        width: 100%;
+        background-color: black;
+        color: white;
+        padding-top: 5px;
+        padding: 15px;
+        border: 0px solid white;
+        transition: transform 500ms;
+        border-radius: 10px;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        font-size: large;
+        margin: 5px;
+        width: 97%;
+      }
+
+      .button:hover {
+        background-color: rgb(255, 30, 0);
+        color: #111;
+        box-shadow: 0px 10px 8px black;
+        border: 0px;
+        align-items: center;
+        margin: 5px;
+        width: 97%;
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .button:active {
+        background-color: black;
+        color: white;
+      }
+
+      #navbar {
+        text-align: center;
+        color: aliceblue;
+        font-size: x-large;
+        position: fixed;
+        width: 100%;
+        z-index: 1;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        background-color: #333;
+      }
+
+      #pay {
+        text-align: center;
+        background-color: aliceblue;
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+        padding: 10px;
+      }
+
+      #add {
+        width: 33%;
+        padding: 10px;
+        background-color: aliceblue;
+        color: black;
+        font-size: x-large;
+        border: 3px solid rgb(0, 0, 0);
+      }
+
+      #add:hover {
+        background-color: green;
+        color: white;
+        border: 3px solid white;
+      }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
 
-<body style="margin: 0;">
+  <body style="margin: 0">
     <div id="navbar">
-        <ul>
-            <li>
-                <a class="active" href="http://localhost:3000/products">Products</a>
-            </li>
-            <div style="padding-top: 15px;padding: 10px;">Cart<i class="fa fa-shopping-cart" style="font-size:24px"></i></div>
-        </ul>
-    </div>
-    <br><br><br>
-    <div>
-        <div id="demo">
-            <div id="content"></div>
+      <ul>
+        <li>
+          <a class="active" href="http://localhost:3000/products">Products</a>
+        </li>
+        <div style="padding-top: 15px; padding: 10px">
+          Cart<i class="fa fa-shopping-cart" style="font-size: 24px"></i>
         </div>
+      </ul>
     </div>
-    <br><br><br><br>
-    <div id="pay" style="background-color:black;">
-        <button id="add" onclick="payment()"><b id="total"> Add products to the Cart </b></button>
+    <br /><br /><br />
+    <div>
+      <div id="demo"><div id="content"></div></div>
     </div>
-</body>
-<script src="https://checkout.razorpay.com/v1/checkout.js">
-</script>
-<script>
+    <br /><br /><br /><br />
+    <div id="pay" style="background-color: black">
+      <button id="add" onclick="payment()">
+        <b id="total"> Add products to the Cart </b>
+      </button>
+    </div>
+  </body>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
     async function main() {
-        sessionStorage.setItem('total_amount', 0)
-        var token = sessionStorage.getItem('token')
-        let result = await fetch("/viewProduct", {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-        });
+      sessionStorage.setItem("total_amount", 0);
+      var token = sessionStorage.getItem("token");
+      let result = await fetch("/viewProduct", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
 
-        let resData = await result.json();
-        total(resData.data)
-        console.log(resData.data);
-        if (resData.status == 200) {
-            let text = "";
-            sessionStorage.setItem('length', resData.data.length)
-            for (let i = 0; i < resData.data.length; i++) {
-                let j = i + 1
-                if (sessionStorage.getItem(`id_${j}`) != null) {
-                    text += `<span>
-                                <div class="card">
-                                    <div class="container">
-                                     <h4><b>${resData.data[i].name} </b></h4>
-                                        <p> Price : Rs. ${resData.data[i].price} </p>
-                                        <p> Category : ${resData.data[i].product_category.category} </p>
-                                        <p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" onchange="totalOnChange(${resData.data.length})" value="${sessionStorage.getItem(`quantity_${j}`)}" min="1" max="5"></p>
-                                    </div>
-                                    <button type="submit" id="btn${i}" onclick="remove('${j}')"><b>Remove Product from Cart</b></button>
-                                </div>
-                            </span>`
-                    }
-            }
-            document.getElementById("content").innerHTML = text;
-            
-        } else {
-            let text = '<img src="images/f.jpg" width=100% height=605px padding=2px>';
-            document.getElementById("content").innerHTML = text;
+      let resData = await result.json();
+      total(resData.data);
+      console.log(resData.data);
+      if (resData.status == 200) {
+        let text = "";
+        sessionStorage.setItem("length", resData.data.length);
+        for (let i = 0; i < resData.data.length; i++) {
+          let j = i + 1;
+          if (sessionStorage.getItem(`id_${j}`) != null) {
+            text += `<span>
+              <div class="card">
+                <div class="container">
+                  <h4><b>${resData.data[i].name} </b></h4>
+                  <p> Price : Rs. ${resData.data[i].price} </p>
+                  <p> Category : ${
+                    resData.data[i].product_category.category
+                  } </p>
+                  <p>Quantity : <input type="number" id="quantity${i}" name="quantity${i}" onchange="totalOnChange(${
+              resData.data.length
+            })" value="${sessionStorage.getItem(
+              `quantity_${j}`
+            )}" min="1" max="5"></p>
+                  </div>
+                  <button type="submit" id="btn${i}" onclick="remove('${j}')" class="button"><b>Remove Product from Cart</b></button>
+                   </div>
+                  </span>`;
+          }
         }
+        document.getElementById("content").innerHTML = text;
+      } else {
+        let text =
+          '<img src="images/f.jpg" width=100% height=605px padding=2px>';
+        document.getElementById("content").innerHTML = text;
+      }
     }
 
-    async function remove(id){
-        let total_amount = sessionStorage.getItem('total_amount')
-        sessionStorage.setItem('total_amount',total_amount-sessionStorage.getItem(`price_${id}`)*sessionStorage.getItem(`quantity_${id}`))
-        sessionStorage.removeItem(`id_${id}`)
-        sessionStorage.removeItem(`name_${id}`)
-        sessionStorage.removeItem(`price_${id}`)
-        sessionStorage.removeItem(`category_${id}`)
-        sessionStorage.removeItem(`quantity_${id}`)
-        
-        location.reload()
-        main()
+    async function remove(id) {
+      let total_amount = sessionStorage.getItem("total_amount");
+      sessionStorage.setItem(
+        "total_amount",
+        total_amount -
+          sessionStorage.getItem(`price_${id}`) *
+            sessionStorage.getItem(`quantity_${id}`)
+      );
+      sessionStorage.removeItem(`id_${id}`);
+      sessionStorage.removeItem(`name_${id}`);
+      sessionStorage.removeItem(`price_${id}`);
+      sessionStorage.removeItem(`category_${id}`);
+      sessionStorage.removeItem(`quantity_${id}`);
+
+      location.reload();
+      main();
     }
 
-    async function total(data){
-        let total_amount= 0
-        for (let i = 0; i < data.length; i++){
-            let j=i+1
-            if (sessionStorage.getItem(`id_${j}`) != null){
-            quant = sessionStorage.getItem(`quantity_${j}`)
-            let price = sessionStorage.getItem(`price_${j}`)
-            total_amount =total_amount  + quant * price
-            sessionStorage.setItem('total_amount',total_amount)
-            document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
-        }    
-    }
-    }
-
-    async function totalOnChange(length){
-        let total_amount= 0
-        for (let i = 0; i < length; i++){
-            let j=i+1
-            if (sessionStorage.getItem(`id_${j}`) != null){
-            quant = document.getElementById(`quantity${i}`).value  
-            sessionStorage.setItem(`quantity_${j}`,quant) 
-            let price = sessionStorage.getItem(`price_${j}`)
-            total_amount =total_amount  + quant * price
-            sessionStorage.setItem('total_amount',total_amount)
-            document.getElementById('total').innerHTML="Checkout : Rs."+total_amount
-        }    
+    async function total(data) {
+      let total_amount = 0;
+      for (let i = 0; i < data.length; i++) {
+        let j = i + 1;
+        if (sessionStorage.getItem(`id_${j}`) != null) {
+          quant = sessionStorage.getItem(`quantity_${j}`);
+          let price = sessionStorage.getItem(`price_${j}`);
+          total_amount = total_amount + quant * price;
+          sessionStorage.setItem("total_amount", total_amount);
+          document.getElementById("total").innerHTML =
+            "Checkout : Rs." + total_amount;
         }
+      }
+    }
+
+    async function totalOnChange(length) {
+      let total_amount = 0;
+      for (let i = 0; i < length; i++) {
+        let j = i + 1;
+        if (sessionStorage.getItem(`id_${j}`) != null) {
+          quant = document.getElementById(`quantity${i}`).value;
+          sessionStorage.setItem(`quantity_${j}`, quant);
+          let price = sessionStorage.getItem(`price_${j}`);
+          total_amount = total_amount + quant * price;
+          sessionStorage.setItem("total_amount", total_amount);
+          document.getElementById("total").innerHTML =
+            "Checkout : Rs." + total_amount;
+        }
+      }
     }
     async function payment() {
-        if(sessionStorage.getItem('total_amount')!=0){
-        var token = sessionStorage.getItem('token')
-        var amount = sessionStorage.getItem('total_amount')
+      if (sessionStorage.getItem("total_amount") != 0) {
+        var token = sessionStorage.getItem("token");
+        var amount = sessionStorage.getItem("total_amount");
         let pay = await fetch("/payment", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                amount: amount,
-            })
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: amount,
+          }),
         });
         let paymentData = await pay.json();
 
         var options = {
-            "key": "rzp_test_0GpnKLHZLZKsPm", // Enter the Key ID generated from the Dashboard
-            "amount": amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            "currency": "INR",
-            "order_id": paymentData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": async function(response) {
-                if (response.razorpay_payment_id) {
-                    for (let i = 0;i<sessionStorage.getItem('length'); i++) {
-                        let j = i + 1
-                     if (sessionStorage.getItem(`id_${j}`) != null) {
-                        let order = await fetch("/orderProduct",{
-                        method:"POST",
-                        headers:{
-                            "Content-type": "application/json",
-                            "Authorization": "Bearer " + token
-                        },
-                        body:JSON.stringify({
-                            product_id:sessionStorage.getItem(`id_${j}`),
-                            quantity:document.getElementById(`quantity${i}`).value ,
-                        })
-                    });
-                    let orderData=await order.json()
+          key: "rzp_test_0GpnKLHZLZKsPm", // Enter the Key ID generated from the Dashboard
+          amount: amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          order_id: paymentData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          handler: async function (response) {
+            if (response.razorpay_payment_id) {
+              for (let i = 0; i < sessionStorage.getItem("length"); i++) {
+                let j = i + 1;
+                if (sessionStorage.getItem(`id_${j}`) != null) {
+                  let order = await fetch("/orderProduct", {
+                    method: "POST",
+                    headers: {
+                      "Content-type": "application/json",
+                      Authorization: "Bearer " + token,
+                    },
+                    body: JSON.stringify({
+                      product_id: sessionStorage.getItem(`id_${j}`),
+                      quantity: document.getElementById(`quantity${i}`).value,
+                    }),
+                  });
+                  let orderData = await order.json();
 
-                    let change= await fetch("/changePaymentStatus",{
-                        method:"PUT",
-                        headers:{
-                            "Content-type": "application/json",
-                            "Authorization": "Bearer " + token
-                        },
-                        body:JSON.stringify({
-                            id:orderData.data.result.id
-                        })
-                    })
-                        sessionStorage.removeItem(`id_${j}`)
-                        sessionStorage.removeItem(`name_${j}`)
-                        sessionStorage.removeItem(`price_${j}`)
-                        sessionStorage.removeItem(`category_${j}`)
-                        sessionStorage.removeItem(`quantity_${j}`)
-                    }  
-            }
-            let total_amount=0
-            sessionStorage.setItem(`total_amount`,total_amount)
-            location.reload()
-                        main()       
-                }else{
-                    alert("ERROR")
+                  let change = await fetch("/changePaymentStatus", {
+                    method: "PUT",
+                    headers: {
+                      "Content-type": "application/json",
+                      Authorization: "Bearer " + token,
+                    },
+                    body: JSON.stringify({
+                      id: orderData.data.result.id,
+                    }),
+                  });
+                  sessionStorage.removeItem(`id_${j}`);
+                  sessionStorage.removeItem(`name_${j}`);
+                  sessionStorage.removeItem(`price_${j}`);
+                  sessionStorage.removeItem(`category_${j}`);
+                  sessionStorage.removeItem(`quantity_${j}`);
                 }
-            },
+              }
+              let total_amount = 0;
+              sessionStorage.setItem(`total_amount`, total_amount);
+              location.reload();
+              main();
+            } else {
+              alert("ERROR");
+            }
+          },
         };
         var rzp1 = new Razorpay(options);
         rzp1.open();
-        }else{
-            location.href="http://localhost:3000/products"
-        }
+      } else {
+        location.href = "http://localhost:3000/products";
+      }
     }
-    main()
-</script>
-
+    main();
+  </script>
 </html>

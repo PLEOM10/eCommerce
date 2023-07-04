@@ -20,8 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 //Routes
 app.use("/", routes(router));
+
 //customer products
 app.get('/products', (req, res) => {
     res.render('index', {});
@@ -41,26 +43,29 @@ app.get('/admin', (req, res) => {
 app.get('/orderCount', (req, res) => {
     res.render('count', {});
 });
+
 //cart
 app.get('/myCart', (req, res) => {
     res.render('cart', {});
 });
+
 //payment
 app.post("/payment", async(req, res) => {
-        let { amount } = req.body;
-        var instance = new Razorpay({ key_id: 'rzp_test_0GpnKLHZLZKsPm', key_secret: 'hPNf09RqkFTExU7YdYcc5F9G' })
-        let order = await instance.orders.create({
-            amount: amount * 100,
-            currency: "INR",
-            receipt: "receipt#1",
-        })
-        res.status(201).json({
-            success: true,
-            order,
-            amount
-        })
+    let { amount } = req.body;
+    var instance = new Razorpay({ key_id: 'rzp_test_0GpnKLHZLZKsPm', key_secret: 'hPNf09RqkFTExU7YdYcc5F9G' })
+    let order = await instance.orders.create({
+        amount: amount * 100,
+        currency: "INR",
+        receipt: "receipt#1",
     })
-    //error
+    res.status(201).json({
+        success: true,
+        order,
+        amount
+    })
+})
+
+//error
 app.use((error, req, res, next) => {
     if (!error) {
         return next();

@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 const { userSchema } = require("./user");
-const paymentDetailsSchema = require("./paymentDetails");
 
 const orderDetailsSchema = db.sequelize.define(
     "order_details", {
